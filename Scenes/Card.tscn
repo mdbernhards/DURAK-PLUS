@@ -1,0 +1,128 @@
+[gd_scene load_steps=14 format=3 uid="uid://cf5g1nwepleab"]
+
+[ext_resource type="PackedScene" uid="uid://cygdqgwuovgwu" path="res://Scenes/HelperScenes/card_template.tscn" id="1_gy5uw"]
+[ext_resource type="Script" path="res://Scenes/Card.gd" id="1_wxsa8"]
+[ext_resource type="Texture2D" uid="uid://bptdgx8uxng51" path="res://Art/Cards/7CardBackV2.png" id="2_fj1h7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t2ici"]
+size = Vector3(0.386368, 0.549572, 0.00554085)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a8xfl"]
+viewport_path = NodePath("CardBody/Front/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpuk8"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_a8xfl")
+metallic_specular = 0.24
+roughness = 0.6
+
+[sub_resource type="QuadMesh" id="QuadMesh_ao4ce"]
+resource_local_to_scene = true
+lightmap_size_hint = Vector2i(7, 9)
+material = SubResource("StandardMaterial3D_dpuk8")
+size = Vector2(1, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jk32y"]
+transparency = 1
+albedo_texture = ExtResource("2_fj1h7")
+metallic = 0.37
+
+[sub_resource type="QuadMesh" id="QuadMesh_fp58u"]
+lightmap_size_hint = Vector2i(10, 12)
+material = SubResource("StandardMaterial3D_jk32y")
+uv2_padding = 5.62
+size = Vector2(1, 1.4)
+
+[sub_resource type="Animation" id="Animation_cf4wj"]
+resource_name = "Select"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_51ob5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oqrkn"]
+resource_name = "DeSelect"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.2, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ysj8v"]
+_data = {
+"DeSelect": SubResource("Animation_oqrkn"),
+"RESET": SubResource("Animation_51ob5"),
+"Select": SubResource("Animation_cf4wj")
+}
+
+[node name="Card" type="Node3D"]
+script = ExtResource("1_wxsa8")
+CardValue = 4
+CardSuit = 1
+
+[node name="CollisionShape3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000526428, -3.62396e-05, 0.000216484)
+shape = SubResource("BoxShape3D_t2ici")
+
+[node name="CardBody" type="Node3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.2, 0)
+
+[node name="Front" type="MeshInstance3D" parent="CardBody"]
+mesh = SubResource("QuadMesh_ao4ce")
+skeleton = NodePath("../..")
+
+[node name="SubViewport" type="SubViewport" parent="CardBody/Front"]
+transparent_bg = true
+size = Vector2i(822, 1122)
+
+[node name="CardTemplate" parent="CardBody/Front/SubViewport" instance=ExtResource("1_gy5uw")]
+
+[node name="Back" type="MeshInstance3D" parent="CardBody"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = SubResource("QuadMesh_fp58u")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CardBody"]
+deterministic = true
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_ysj8v")
+}
+playback_default_blend_time = 0.2
+
+[connection signal="input_event" from="CollisionShape3D" to="." method="_on_collision_shape_3d_input_event"]
+[connection signal="mouse_entered" from="CollisionShape3D" to="." method="_on_collision_shape_3d_mouse_entered"]
+[connection signal="mouse_exited" from="CollisionShape3D" to="." method="_on_collision_shape_3d_mouse_exited"]

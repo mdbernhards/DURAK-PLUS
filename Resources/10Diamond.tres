@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://75hk0rky8sc5"]
+
+[ext_resource type="Texture2D" uid="uid://cbtqefmadtipy" path="res://Art/Cards/Diamonds/ForUse/10Diamonds.png" id="1_chsk5"]
+[ext_resource type="Script" path="res://Scripts/CardData.gd" id="2_8q5bt"]
+
+[resource]
+script = ExtResource("2_8q5bt")
+cardName = ""
+flavorText = ""
+art = ExtResource("1_chsk5")

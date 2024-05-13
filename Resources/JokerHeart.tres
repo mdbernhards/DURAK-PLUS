@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://f5ff6dbg57vd"]
+
+[ext_resource type="Script" path="res://Scripts/CardData.gd" id="1_c07gt"]
+[ext_resource type="Texture2D" uid="uid://digx1mu7x2y7s" path="res://Art/Cards/Hearts/Hearts/JokerHearts.png" id="1_lh0h8"]
+
+[resource]
+script = ExtResource("1_c07gt")
+cardName = ""
+flavorText = ""
+art = ExtResource("1_lh0h8")

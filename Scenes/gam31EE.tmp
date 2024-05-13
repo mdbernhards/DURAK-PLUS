@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://605s5ccg26ad"]
+
+[ext_resource type="PackedScene" uid="uid://cf5g1nwepleab" path="res://Scenes/Card.tscn" id="1_jm0h7"]
+[ext_resource type="Script" path="res://Scenes/CardDeck.gd" id="2_r2n7w"]
+
+[node name="GameLogic" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0273196, 0.762103, 1.82579)
+
+[node name="Card" parent="." instance=ExtResource("1_jm0h7")]
+transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 0, 0, -1)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CardDeck" type="Node" parent="."]
+script = ExtResource("2_r2n7w")

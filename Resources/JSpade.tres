@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://cgld4c7dg5wp2"]
+
+[ext_resource type="Texture2D" uid="uid://0absetkt0hey" path="res://Art/Cards/Spades/ForUse/JSpade.png" id="1_rjgeb"]
+[ext_resource type="Script" path="res://Scripts/CardData.gd" id="2_wcmlq"]
+
+[resource]
+script = ExtResource("2_wcmlq")
+cardName = ""
+flavorText = ""
+art = ExtResource("1_rjgeb")

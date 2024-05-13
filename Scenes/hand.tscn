@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://2nipdbi06qvk"]
+
+[ext_resource type="Script" path="res://Scenes/Hand.gd" id="1_ahj8d"]
+
+[sub_resource type="Curve" id="Curve_pcihf"]
+min_value = -1.0
+_data = [Vector2(0, -1), 0.0, 2.01403, 0, 0, Vector2(1, 1), 1.93559, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_i4goy"]
+min_value = -1.0
+max_value = 0.0
+_data = [Vector2(0, -1), 0.0, 2.62754, 0, 0, Vector2(0.501742, -0.1471), 0.0, 0.0, 0, 0, Vector2(1, -1), -2.46101, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_b2jm0"]
+min_value = -1.0
+_data = [Vector2(0, 0.73755), 0.0, -2.56656, 0, 0, Vector2(0.501742, -0.0480906), 0.0, 0.0, 0, 0, Vector2(1, -0.732167), -1.78928, 0.0, 0, 0]
+point_count = 3
+
+[node name="Hand" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.113294, -0.348011, -0.883956)
+script = ExtResource("1_ahj8d")
+spread_curve = SubResource("Curve_pcihf")
+height_curve = SubResource("Curve_i4goy")
+rotation_curve = SubResource("Curve_b2jm0")

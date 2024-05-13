@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://k8sbaygt40is"]
+
+[ext_resource type="Script" path="res://CardHolder.gd" id="1_6do4g"]
+[ext_resource type="Texture2D" uid="uid://boe18o87ipa7h" path="res://Art/Cards/Clubs/ForUse/2Clubs.png" id="2_trthh"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_i7755"]
+
+[node name="CardHolder" type="Container"]
+offset_left = -416.0
+offset_top = -556.0
+offset_right = -376.0
+offset_bottom = -516.0
+script = ExtResource("1_6do4g")
+
+[node name="Art" type="TextureRect" parent="."]
+material = SubResource("CanvasItemMaterial_i7755")
+layout_mode = 2
+texture = ExtResource("2_trthh")
