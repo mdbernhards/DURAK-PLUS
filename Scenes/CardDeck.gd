@@ -38,7 +38,6 @@ func placeCardsOnTable(cardArray):
 		card.rotation.y = 0
 		card.rotation.z = 0
 		card.position.y = -0.08 + (0.003 * cardCount)
-		card.selectable = false
 		cardCount += 1
 		GameDeck.append(card)
 		add_child(card)

@@ -8,7 +8,9 @@ var startPosition
 var cardHighlighted = false
 var cardClicked = false
 
-var selectable = true
+var IsCardInHand = false
+var PlayersHand
+var PlayersCamera
 
 @export var data:CardData:
 	set(value):
@@ -29,7 +31,8 @@ var selectable = true
 func _ready():
 	CardTemplate = $"CardBody/Front/SubViewport/CardTemplate"
 	getNewCard()
-	$CardBody/AnimationPlayer.play("DeSelect")
+	if IsCardInHand:
+		PlayersHand = get_parent()
 
 func _process(delta):
 	pass
@@ -65,17 +68,20 @@ func getNewCard():
 	data = tempdata
 
 func _on_collision_shape_3d_mouse_entered():
-	if cardClicked == false && selectable:
+	if cardClicked == false && IsCardInHand:
 		$"CardBody/AnimationPlayer".play("Select")
 		cardHighlighted = true
 
 func _on_collision_shape_3d_mouse_exited():
-	if cardClicked == false && selectable:
+	if cardClicked == false && IsCardInHand:
 		$"CardBody/AnimationPlayer".play("DeSelect")
 		cardHighlighted = false
 
 func _on_collision_shape_3d_input_event(camera, event, position, normal, shape_idx):
-	if (event is InputEventMouseButton) and (event.button_index == 1) && selectable:
-		if event.button_mask == 1:
-			if cardHighlighted:
-				cardClicked = !cardClicked
+	if (event is InputEventMouseButton) and (event.button_index == 1) && IsCardInHand:
+		if event.button_mask == 1 and cardHighlighted:
+			if !cardClicked:
+				cardClicked = PlayersHand.selectCard($".")
+			else:
+				PlayersHand.deselectCard($".")
+				cardClicked = false

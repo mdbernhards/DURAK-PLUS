@@ -4,12 +4,17 @@ extends Node3D
 @export var height_curve: Curve
 @export var rotation_curve: Curve
 
+var MIN_CARDS_IN_HAND = 6
+
 const CARD = preload("res://Scenes/Card.tscn")
 var CardDeck
 
+var SelectedCards
+
 func _ready():
-	add_5_cards()
+	#add_5_cards()
 	CardDeck = get_tree().get_first_node_in_group("CardDeck")
+	SelectedCards = []
 
 func _process(delta):
 	pass
@@ -42,12 +47,48 @@ func spaceOutCards():
 
 func pullCardFromDeck():
 	var oldCard = CardDeck.GameDeck.pop_back()
+	
+	if !oldCard:
+		return
+	
 	var newCard = CARD.instantiate()
 	newCard.CardValue = oldCard.CardValue
 	newCard.CardSuit = oldCard.CardSuit
+	newCard.IsCardInHand = true
 	add_child(newCard)
 	oldCard.queue_free()
 	spaceOutCards()
 
-func _on_button_pressed():
+func fillHand():
+	var count = get_child_count()
+	
+	if count >= MIN_CARDS_IN_HAND:
+		return
+	
+	for _i in MIN_CARDS_IN_HAND - count:
+		pullCardFromDeck()
+
+func _on_get_card_button_pressed():
 	pullCardFromDeck()
+	
+func _on_attack_button_pressed():
+	pass # Replace with function body.
+
+func _on_take_cards_button_pressed():
+	pass # Replace with function body.
+
+func _on_end_turn_button_pressed():
+	pass # Replace with function body.
+
+func selectCard(card):
+	if SelectedCards.size() == 0:
+		SelectedCards.append(card)
+		return true
+	for selectedCard in SelectedCards:
+		if selectedCard.CardValue == card.CardValue:
+			SelectedCards.append(card)
+			return true
+	return false
+
+func deselectCard(card):
+	SelectedCards.erase(card)

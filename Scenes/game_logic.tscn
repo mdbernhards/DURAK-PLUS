@@ -1,10 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://605s5ccg26ad"]
+[gd_scene load_steps=10 format=3 uid="uid://605s5ccg26ad"]
 
-[ext_resource type="Script" path="res://Scenes/Player1.gd" id="1_7o5je"]
-[ext_resource type="PackedScene" uid="uid://cf5g1nwepleab" path="res://Scenes/Card.tscn" id="1_jm0h7"]
-[ext_resource type="PackedScene" uid="uid://2nipdbi06qvk" path="res://Scenes/hand.tscn" id="1_qxk7g"]
-[ext_resource type="Script" path="res://Scenes/UILayer.gd" id="2_h4tph"]
-[ext_resource type="Resource" uid="uid://b3mp40l58dwg6" path="res://Resources/3Diamond.tres" id="2_km3i7"]
+[ext_resource type="Script" path="res://Scenes/game_logic.gd" id="1_e3neb"]
+[ext_resource type="PackedScene" uid="uid://bfu0fgb47773" path="res://Scenes/Player.tscn" id="2_26qlr"]
 [ext_resource type="Script" path="res://Scenes/CardDeck.gd" id="2_r2n7w"]
 [ext_resource type="Script" path="res://Scenes/FlyingCamera.gd" id="3_y8i24"]
 [ext_resource type="PackedScene" uid="uid://b7uyvy15x48ro" path="res://Art/3D/PokerTable2.gltf" id="5_nt7af"]
@@ -26,283 +23,27 @@ background_energy_multiplier = 1.7
 sky = SubResource("Sky_b2j5m")
 
 [node name="GameLogic" type="Node3D"]
+script = ExtResource("1_e3neb")
 
-[node name="Player1" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.75993, 0.650005, 0, -0.650005, 0.75993, 0.295, 0.2, 2.196)
-attributes = SubResource("CameraAttributesPractical_1wqt2")
-current = true
-fov = 90.0
-size = 15.132
-near = 0.001
-script = ExtResource("1_7o5je")
+[node name="Players" type="Node3D" parent="."]
 
-[node name="Hand" parent="Player1" instance=ExtResource("1_qxk7g")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.113294, -0.550022, -1.11402)
+[node name="Player1" parent="Players" groups=["Player1"] instance=ExtResource("2_26qlr")]
+transform = Transform3D(1, 0, 0, 0, 0.75993, 0.650005, 0, -0.650005, 0.75993, 0.3, 0.2, 2.2)
 
-[node name="UILayer" type="CanvasLayer" parent="Player1"]
-script = ExtResource("2_h4tph")
+[node name="Player2" parent="Players" groups=["Player2"] instance=ExtResource("2_26qlr")]
+transform = Transform3D(0.422618, -0.5886, 0.689162, 0, 0.760406, 0.649448, -0.906308, -0.274469, 0.321361, 2.4, 0.2, 0.8)
 
-[node name="Container" type="Control" parent="Player1/UILayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Player3" parent="Players" groups=["Player3"] instance=ExtResource("2_26qlr")]
+transform = Transform3D(-0.642788, -0.497506, 0.582505, 0, 0.760406, 0.649448, -0.766044, 0.417457, -0.48878, 2.5, 0.2, -2.2)
 
-[node name="Label" type="Label" parent="Player1/UILayer/Container"]
-layout_mode = 0
-offset_left = 199.0
-offset_top = 20.0
-offset_right = 270.0
-offset_bottom = 43.0
-text = "DOGSHIT"
+[node name="Player4" parent="Players" groups=["Player4"] instance=ExtResource("2_26qlr")]
+transform = Transform3D(-0.642788, 0.497506, -0.582505, 0, 0.760406, 0.649448, 0.766044, 0.417457, -0.48878, -1, 0.2, -2.8)
 
-[node name="Button" type="Button" parent="Player1/UILayer/Container"]
-layout_mode = 0
-offset_left = 183.0
-offset_top = 87.0
-offset_right = 255.0
-offset_bottom = 118.0
-text = "GetCard"
+[node name="Player5" parent="Players" groups=["Player5"] instance=ExtResource("2_26qlr")]
+transform = Transform3D(-1, 5.67765e-08, -6.64768e-08, 0, 0.760406, 0.649448, 8.74228e-08, 0.649448, -0.760406, 0.75, 0.2, -3.6)
 
-[node name="AttackBoard" type="Node3D" parent="Player1"]
-transform = Transform3D(1, 0, 0, 0, 0.760406, -0.649448, 0, 0.649448, 0.760406, -0.365636, 1.42495, -1.97145)
-
-[node name="Card" parent="Player1/AttackBoard" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player1/AttackBoard/Card"]
-
-[node name="Card2" parent="Player1/AttackBoard" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player1/AttackBoard/Card2"]
-
-[node name="Card3" parent="Player1/AttackBoard" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player1/AttackBoard/Card3"]
-
-[node name="Card4" parent="Player1/AttackBoard" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player1/AttackBoard/Card4"]
-
-[node name="Card5" parent="Player1/AttackBoard" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.75, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player1/AttackBoard/Card5"]
-
-[node name="Card6" parent="Player1/AttackBoard" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player1/AttackBoard/Card6"]
-
-[node name="Player2" type="Camera3D" parent="."]
-transform = Transform3D(0.590588, -0.54094, 0.598824, 0.0371457, 0.759498, 0.649448, -0.806118, -0.361313, 0.468644, 2.4, 0.2, 1.271)
-attributes = SubResource("CameraAttributesPractical_1wqt2")
-current = true
-fov = 90.0
-size = 15.132
-near = 0.001
-
-[node name="Hand" parent="Player2" instance=ExtResource("1_qxk7g")]
-transform = Transform3D(1, 0, 0, 5.96046e-07, 1, 1.49012e-08, 0, -1.49012e-08, 1, 0.0520547, -0.493883, -0.805796)
-
-[node name="Board" type="Node3D" parent="Player2"]
-transform = Transform3D(0.998378, 0.0366171, 0.0436168, 0.00085327, 0.756183, -0.654363, -0.0569417, 0.653339, 0.754925, -0.833407, 1.44479, -1.90395)
-
-[node name="Card" parent="Player2/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player2/Board/Card"]
-
-[node name="Card2" parent="Player2/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player2/Board/Card2"]
-
-[node name="Card3" parent="Player2/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player2/Board/Card3"]
-
-[node name="Card4" parent="Player2/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player2/Board/Card4"]
-
-[node name="Card5" parent="Player2/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.75, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player2/Board/Card5"]
-
-[node name="Card6" parent="Player2/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player2/Board/Card6"]
-
-[node name="Player3" type="Camera3D" parent="."]
-transform = Transform3D(0.453757, 0.57874, -0.677617, -2.22809e-08, 0.760406, 0.649448, 0.891125, -0.294692, 0.34504, -1.491, 0.2, 0.588)
-attributes = SubResource("CameraAttributesPractical_1wqt2")
-fov = 90.0
-size = 15.132
-near = 0.001
-
-[node name="Hand" parent="Player3" instance=ExtResource("1_qxk7g")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.113294, -0.550022, -1.11402)
-
-[node name="Board" type="Node3D" parent="Player3"]
-transform = Transform3D(0.996673, -0.000963128, 0.0815121, 0.0541106, 0.755684, -0.652699, -0.0609674, 0.654938, 0.753222, -0.835015, 1.40365, -1.93912)
-
-[node name="Card" parent="Player3/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player3/Board/Card"]
-
-[node name="Card2" parent="Player3/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player3/Board/Card2"]
-
-[node name="Card3" parent="Player3/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player3/Board/Card3"]
-
-[node name="Card4" parent="Player3/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player3/Board/Card4"]
-
-[node name="Card5" parent="Player3/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.75, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player3/Board/Card5"]
-
-[node name="Card6" parent="Player3/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player3/Board/Card6"]
-
-[node name="Player4" type="Camera3D" parent="."]
-transform = Transform3D(-0.590676, -0.524045, 0.613578, -2.86663e-09, 0.760406, 0.649448, -0.806909, 0.383613, -0.449154, 2.178, 0.2, -2.244)
-attributes = SubResource("CameraAttributesPractical_1wqt2")
-fov = 90.0
-size = 15.132
-near = 0.001
-
-[node name="Board" type="Node3D" parent="Player4"]
-transform = Transform3D(0.996673, -0.000963122, 0.0815122, 0.0541106, 0.755684, -0.652699, -0.0609675, 0.654938, 0.753222, -0.835015, 1.41243, -1.93163)
-
-[node name="Card" parent="Player4/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player4/Board/Card"]
-
-[node name="Card2" parent="Player4/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player4/Board/Card2"]
-
-[node name="Card3" parent="Player4/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player4/Board/Card3"]
-
-[node name="Card4" parent="Player4/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player4/Board/Card4"]
-
-[node name="Card5" parent="Player4/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.75, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player4/Board/Card5"]
-
-[node name="Card6" parent="Player4/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player4/Board/Card6"]
-
-[node name="Player5" type="Camera3D" parent="."]
-transform = Transform3D(-0.998027, 0.0407791, -0.0477462, 0, 0.760406, 0.649448, 0.0627905, 0.648166, -0.758905, 0.506, 0.2, -3.582)
-attributes = SubResource("CameraAttributesPractical_1wqt2")
-fov = 90.0
-size = 15.132
-near = 0.001
-
-[node name="Board" type="Node3D" parent="Player5"]
-transform = Transform3D(0.996673, -0.000963127, 0.0815121, 0.0541106, 0.755684, -0.652699, -0.0609674, 0.654938, 0.753222, -0.835015, 1.41633, -1.92829)
-
-[node name="Card" parent="Player5/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player5/Board/Card"]
-
-[node name="Card2" parent="Player5/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player5/Board/Card2"]
-
-[node name="Card3" parent="Player5/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player5/Board/Card3"]
-
-[node name="Card4" parent="Player5/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player5/Board/Card4"]
-
-[node name="Card5" parent="Player5/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.75, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player5/Board/Card5"]
-
-[node name="Card6" parent="Player5/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player5/Board/Card6"]
-
-[node name="Player6" type="Camera3D" parent="."]
-transform = Transform3D(-0.476054, 0.571135, -0.668713, -2.1725e-08, 0.760406, 0.649448, 0.879416, 0.309172, -0.361994, -1.431, 0.2, -2.353)
-attributes = SubResource("CameraAttributesPractical_1wqt2")
-fov = 90.0
-size = 15.132
-near = 0.001
-
-[node name="Board" type="Node3D" parent="Player6"]
-transform = Transform3D(0.996673, -0.00096313, 0.0815121, 0.0541106, 0.755684, -0.652699, -0.0609674, 0.654938, 0.753222, -0.835015, 1.40365, -1.93912)
-
-[node name="Card" parent="Player6/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player6/Board/Card"]
-
-[node name="Card2" parent="Player6/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player6/Board/Card2"]
-
-[node name="Card3" parent="Player6/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, -1.18, 0.8)
-
-[node name="Marker3D" type="Marker3D" parent="Player6/Board/Card3"]
-
-[node name="Card4" parent="Player6/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player6/Board/Card4"]
-
-[node name="Card5" parent="Player6/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.75, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player6/Board/Card5"]
-
-[node name="Card6" parent="Player6/Board" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.25, -1.18, 1.45)
-
-[node name="Marker3D" type="Marker3D" parent="Player6/Board/Card6"]
+[node name="Player6" parent="Players" groups=["Player6"] instance=ExtResource("2_26qlr")]
+transform = Transform3D(0.56655, 0.535163, -0.626595, 0, 0.760406, 0.649448, 0.824027, -0.367945, 0.430808, -1.4, 0.2, 0.75)
 
 [node name="FlyingCamera" type="Camera3D" parent="."]
 transform = Transform3D(0.231976, 0.964406, 0.126918, -0.43305, -0.0144421, 0.901254, 0.871008, -0.264031, 0.414286, -0.046756, 1.57407, -0.833135)
@@ -312,12 +53,6 @@ size = 15.132
 near = 0.001
 script = ExtResource("3_y8i24")
 
-[node name="Card2" parent="." instance=ExtResource("1_jm0h7")]
-transform = Transform3D(-0.461006, 0, -0.193581, 0, 0.5, 0, 0.193581, 0, -0.461006, 0.432348, -0.851489, 1.06489)
-data = ExtResource("2_km3i7")
-CardValue = 7
-CardSuit = 3
-
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
@@ -325,19 +60,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.401405, -1.10221, -0.937042)
 script = ExtResource("2_r2n7w")
 
-[node name="Card2" parent="CardDeck" instance=ExtResource("1_jm0h7")]
-transform = Transform3D(-1.74846e-08, 0.4, 1.74846e-08, 0, -1.74846e-08, 0.4, 0.4, 1.74846e-08, 7.64274e-16, 0, -0.08, 0)
-data = ExtResource("2_km3i7")
-CardValue = 7
-CardSuit = 3
-
 [node name="PokerTable" parent="." instance=ExtResource("5_nt7af")]
 transform = Transform3D(-0.299996, 0.00163883, 0, -0.00163883, -0.299996, 0, 0, 0, 0.3, 1.64276, -2.72067, 1.7888)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xd82s")
-
-[node name="Card" parent="." instance=ExtResource("1_jm0h7")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.828573, 0.043358)
-
-[connection signal="pressed" from="Player1/UILayer/Container/Button" to="Player1/Hand" method="_on_button_pressed"]
