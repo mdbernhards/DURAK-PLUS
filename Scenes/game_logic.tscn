@@ -22,28 +22,33 @@ background_mode = 2
 background_energy_multiplier = 1.7
 sky = SubResource("Sky_b2j5m")
 
-[node name="GameLogic" type="Node3D"]
+[node name="GameLogic" type="Node3D" groups=["GameLogic"]]
 script = ExtResource("1_e3neb")
 
 [node name="Players" type="Node3D" parent="."]
 
 [node name="Player1" parent="Players" groups=["Player1"] instance=ExtResource("2_26qlr")]
 transform = Transform3D(1, 0, 0, 0, 0.75993, 0.650005, 0, -0.650005, 0.75993, 0.3, 0.2, 2.2)
+current = false
 
 [node name="Player2" parent="Players" groups=["Player2"] instance=ExtResource("2_26qlr")]
 transform = Transform3D(0.422618, -0.5886, 0.689162, 0, 0.760406, 0.649448, -0.906308, -0.274469, 0.321361, 2.4, 0.2, 0.8)
 
 [node name="Player3" parent="Players" groups=["Player3"] instance=ExtResource("2_26qlr")]
 transform = Transform3D(-0.642788, -0.497506, 0.582505, 0, 0.760406, 0.649448, -0.766044, 0.417457, -0.48878, 2.5, 0.2, -2.2)
+current = false
 
 [node name="Player4" parent="Players" groups=["Player4"] instance=ExtResource("2_26qlr")]
 transform = Transform3D(-0.642788, 0.497506, -0.582505, 0, 0.760406, 0.649448, 0.766044, 0.417457, -0.48878, -1, 0.2, -2.8)
+current = false
 
 [node name="Player5" parent="Players" groups=["Player5"] instance=ExtResource("2_26qlr")]
 transform = Transform3D(-1, 5.67765e-08, -6.64768e-08, 0, 0.760406, 0.649448, 8.74228e-08, 0.649448, -0.760406, 0.75, 0.2, -3.6)
+current = false
 
 [node name="Player6" parent="Players" groups=["Player6"] instance=ExtResource("2_26qlr")]
 transform = Transform3D(0.56655, 0.535163, -0.626595, 0, 0.760406, 0.649448, 0.824027, -0.367945, 0.430808, -1.4, 0.2, 0.75)
+current = false
 
 [node name="FlyingCamera" type="Camera3D" parent="."]
 transform = Transform3D(0.231976, 0.964406, 0.126918, -0.43305, -0.0144421, 0.901254, 0.871008, -0.264031, 0.414286, -0.046756, 1.57407, -0.833135)

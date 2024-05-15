@@ -1,5 +1,3 @@
 extends Node
 
-
-var cardSelected
-var mouseOnPlacement = false
+enum Phase { Attack , Defence , Waiting}

@@ -38,8 +38,8 @@ material = SubResource("StandardMaterial3D_jk32y")
 uv2_padding = 5.62
 size = Vector2(1, 1.4)
 
-[sub_resource type="Animation" id="Animation_cf4wj"]
-resource_name = "Select"
+[sub_resource type="Animation" id="Animation_oqrkn"]
+resource_name = "DeSelect"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -50,7 +50,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.2, 0)]
+"values": [Vector3(0, 0.2, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_51ob5"]
@@ -68,8 +68,8 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_oqrkn"]
-resource_name = "DeSelect"
+[sub_resource type="Animation" id="Animation_cf4wj"]
+resource_name = "Select"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -80,7 +80,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0.2, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0.2, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ysj8v"]

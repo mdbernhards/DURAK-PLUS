@@ -2,15 +2,16 @@ extends Node3D
 
 var playerCount = 6
 var WhatPlayersTurn = 1
-var CurrentPlayersTurn = 1
 var Players
+var Phase = Game.Phase.Attack
 
 func _ready():
 	Players = get_tree().get_nodes_in_group("Player")
 	dealCards()
+	setPlayerPhases(Game.Phase.Attack)
 
 func _process(delta):
-	setCurrentPlayer()
+	pass
 
 func dealCards():
 	var players = getPlayersInOrder()
@@ -29,10 +30,29 @@ func getPlayersInOrder():
 	
 	return players
 
-func setCurrentPlayer():
-	if WhatPlayersTurn != CurrentPlayersTurn:
-		CurrentPlayersTurn = WhatPlayersTurn
-		
-		for player in Players:
-			player.YourTurn = false
-		Players[CurrentPlayersTurn-1].YourTurn = true
+func setPlayerPhases(phase):
+	Phase = phase
+	
+	for player in Players:
+		player.YourTurn = false
+		player.current = false
+		player.setPhase(Game.Phase.Waiting)
+	Players[WhatPlayersTurn-1].YourTurn = true
+	Players[WhatPlayersTurn-1].current = true
+	Players[WhatPlayersTurn-1].setPhase(Phase)
+
+func attack (selectedCards, attackerId, defenderId):
+	if attackerId != WhatPlayersTurn:
+		return
+	
+	for selectedCard in selectedCards:
+		Players[defenderId-1].get_node("PlayerBoard").addCard(selectedCard.CardSuit, selectedCard.CardValue)
+	var Phase = Game.Phase.Defence
+
+func nextTurn():
+	WhatPlayersTurn += 1
+	
+	if WhatPlayersTurn > playerCount:
+		WhatPlayersTurn -= playerCount
+	
+	setPlayerPhases(Game.Phase.Defence)

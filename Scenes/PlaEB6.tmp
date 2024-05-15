@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfu0fgb47773"]
+[gd_scene load_steps=6 format=3 uid="uid://bfu0fgb47773"]
 
 [ext_resource type="Script" path="res://Scenes/Player1.gd" id="1_cql0q"]
 [ext_resource type="PackedScene" uid="uid://2nipdbi06qvk" path="res://Scenes/hand.tscn" id="2_unnxr"]
 [ext_resource type="Script" path="res://Scenes/UILayer.gd" id="3_n6cxw"]
-[ext_resource type="Script" path="res://Scenes/PlayerBoard.gd" id="4_ligll"]
 [ext_resource type="PackedScene" uid="uid://cf5g1nwepleab" path="res://Scenes/Card.tscn" id="4_ngi8t"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1wqt2"]
@@ -37,7 +36,7 @@ offset_right = 270.0
 offset_bottom = 43.0
 text = "DOGSHIT"
 
-[node name="PhaseLabel" type="Label" parent="UILayer/Container"]
+[node name="YourTurnLabel" type="Label" parent="UILayer/Container"]
 layout_mode = 0
 offset_left = 696.0
 offset_top = 87.0
@@ -45,7 +44,6 @@ offset_right = 1271.0
 offset_bottom = 224.0
 theme_override_font_sizes/font_size = 100
 text = "YOUR TURN"
-horizontal_alignment = 1
 
 [node name="GetCardButton" type="Button" parent="UILayer/Container"]
 layout_mode = 0
@@ -56,7 +54,6 @@ offset_bottom = 118.0
 text = "GetCard"
 
 [node name="AttackButton" type="Button" parent="UILayer/Container" groups=["AttackButton"]]
-visible = false
 layout_mode = 0
 offset_left = 220.0
 offset_top = 165.0
@@ -72,86 +69,84 @@ offset_right = 475.0
 offset_bottom = 119.0
 text = "Take The Cards"
 
+[node name="EndTurnButton" type="Button" parent="UILayer/Container"]
+layout_mode = 0
+offset_left = 349.0
+offset_top = 165.0
+offset_right = 475.0
+offset_bottom = 196.0
+scale = Vector2(0.992297, 1)
+text = "END TURN"
+
 [node name="PlayerBoard" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.760406, -0.649448, 0, 0.649448, 0.760406, -0.365636, 1.42495, -1.97145)
-script = ExtResource("4_ligll")
+visible = false
 
 [node name="IncomingAttack" type="Node3D" parent="PlayerBoard"]
 
-[node name="Card1" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
+[node name="Card" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0, -1.18, 0.8)
-visible = false
 
-[node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card1"]
+[node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card"]
 
 [node name="Card2" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0.5, -1.18, 0.8)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card2"]
 
 [node name="Card3" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 1, -1.18, 0.8)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card3"]
 
 [node name="Card4" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0.25, -1.18, 1.45)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card4"]
 
 [node name="Card5" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0.75, -1.18, 1.45)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card5"]
 
 [node name="Card6" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 1.25, -1.18, 1.45)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card6"]
 
 [node name="Defence" type="Node3D" parent="PlayerBoard"]
 
-[node name="Card1" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
+[node name="Card" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0, -1.17, 0.84)
-visible = false
 
-[node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card1"]
+[node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card"]
 
 [node name="Card2" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0.5, -1.17, 0.84)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card2"]
 
 [node name="Card3" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 1, -1.17, 0.84)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card3"]
 
 [node name="Card4" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0.25, -1.17, 1.49)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card4"]
 
 [node name="Card5" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0.75, -1.17, 1.49)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card5"]
 
 [node name="Card6" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 1.25, -1.17, 1.49)
-visible = false
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card6"]
 
 [connection signal="pressed" from="UILayer/Container/GetCardButton" to="Hand" method="_on_get_card_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/AttackButton" to="Hand" method="_on_attack_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/TakeCardsButton" to="Hand" method="_on_take_cards_button_pressed"]
+[connection signal="pressed" from="UILayer/Container/EndTurnButton" to="Hand" method="_on_end_turn_button_pressed"]
