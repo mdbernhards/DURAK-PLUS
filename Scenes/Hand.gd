@@ -15,7 +15,6 @@ var PlayerCamera
 var SelectedCards
 
 func _ready():
-	#add_5_cards()
 	CardDeck = get_tree().get_first_node_in_group("CardDeck")
 	SelectedCards = []
 	GameLogic = get_tree().get_first_node_in_group("GameLogic")
@@ -23,12 +22,6 @@ func _ready():
 
 func _process(delta):
 	pass
-	
-func add_5_cards()->void:
-	for _x in 5:
-		var card = CARD.instantiate()
-		add_child(card)
-	spaceOutCards()
 	
 func spaceOutCards():
 	for card in get_children():
@@ -55,12 +48,16 @@ func pullCardFromDeck():
 	if !oldCard:
 		return
 	
-	var newCard = CARD.instantiate()
-	newCard.CardValue = oldCard.CardValue
-	newCard.CardSuit = oldCard.CardSuit
-	newCard.IsCardInHand = true
-	add_child(newCard)
+	addCard(oldCard.CardValue, oldCard.CardSuit)
+	
 	oldCard.queue_free()
+
+func addCard(cardValue, cardSuit):
+	var newCard = CARD.instantiate()
+	newCard.CardValue = cardValue
+	newCard.CardSuit = cardSuit
+	newCard.CardStatus = Game.CardStatus.Hand
+	add_child(newCard)
 	spaceOutCards()
 
 func fillHand():
@@ -84,23 +81,47 @@ func _on_attack_button_pressed():
 	GameLogic.attack(SelectedCards, attackerId, defenderId)
 	
 	for card in SelectedCards:
-		card.queue_free()
+		card.free()
 	
 	SelectedCards.clear()
-	GameLogic.nextTurn()
+	GameLogic.nextTurn(Game.Phase.Defence)
+	spaceOutCards()
 
 func _on_take_cards_button_pressed():
-	pass # Replace with function body.
-
+	var playerBoard = PlayerCamera.get_node("PlayerBoard")
+	
+	for card in playerBoard.AttackCardsOnBoard:
+		addCard(card.CardValue, card.CardSuit)
+		card.queue_free()
+	
+	for card in playerBoard.DefenceCardsOnBoard:
+		addCard(card.CardValue, card.CardSuit)
+		card.queue_free()
+		
+	playerBoard.AttackCardsOnBoard.clear()
+	playerBoard.DefenceCardsOnBoard.clear()
+	GameLogic.nextTurn(Game.Phase.Attack)
+	
 func selectCard(card):
-	if SelectedCards.size() == 0:
+	if SelectedCards.size() == 0 and PlayerCamera.Phase != Game.Phase.Waiting:
 		SelectedCards.append(card)
 		return true
-	for selectedCard in SelectedCards:
-		if selectedCard.CardValue == card.CardValue:
-			SelectedCards.append(card)
-			return true
+	elif PlayerCamera.Phase == Game.Phase.Attack:
+		for selectedCard in SelectedCards:
+			if selectedCard.CardValue == card.CardValue:
+				SelectedCards.append(card)
+				return true
 	return false
 
 func deselectCard(card):
 	SelectedCards.erase(card)
+
+func defendCard(card):
+	if SelectedCards.size() != 1:
+		return false
+	
+	if SelectedCards[0].CardValue > card.CardValue:
+		GameLogic.defend(SelectedCards[0], card.name, PlayerCamera.PlayerId)
+	
+func takeBackDefendingCard(card):
+	pass

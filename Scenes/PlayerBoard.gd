@@ -1,6 +1,8 @@
 extends Node3D
 
-var CardsOnTable = 0
+var CardCount = 0
+var AttackCardsOnBoard = []
+var DefenceCardsOnBoard = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,30 +13,42 @@ func _ready():
 func _process(delta):
 	pass
 
-func addCard(cardSuit, cardValue):
-	CardsOnTable += 1
+func addAttackCard(cardSuit, cardValue):
+	CardCount += 1
 	
-	if CardsOnTable > 6:
-		CardsOnTable -= 1
+	if CardCount > 6:
+		CardCount -= 1
 		return
 		
-	var cardName = "Card1"
-	
-	if CardsOnTable == 1:
-		cardName = "Card1"
-	elif CardsOnTable == 2:
-		cardName = "Card2"
-	elif CardsOnTable == 3:
-		cardName = "Card3"
-	elif CardsOnTable == 4:
-		cardName = "Card4"
-	elif CardsOnTable == 5:
-		cardName = "Card5"
-	elif CardsOnTable == 6:
-		cardName = "Card6"
+	var cardName = getCardName(CardCount)
 
 	var playedCard = $IncomingAttack.get_node(cardName)
 	
 	playedCard.CardSuit = cardSuit
 	playedCard.CardValue = cardValue
 	playedCard.visible = true
+	AttackCardsOnBoard.append(playedCard)
+	
+func addDefendCard(cardSuit, cardValue, cardName):
+	var playedCard = $Defence.get_node(String(cardName))
+	
+	playedCard.CardSuit = cardSuit
+	playedCard.CardValue = cardValue
+	playedCard.visible = true
+	DefenceCardsOnBoard.append(playedCard)
+
+func getCardName(cardPosition):
+	var cardName = "Card1"
+	
+	if cardPosition == 1:
+		return "Card1"
+	elif cardPosition == 2:
+		return "Card2"
+	elif cardPosition == 3:
+		return "Card3"
+	elif cardPosition == 4:
+		return "Card4"
+	elif cardPosition == 5:
+		return "Card5"
+	elif cardPosition == 6:
+		return "Card6"

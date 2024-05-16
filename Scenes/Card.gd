@@ -8,9 +8,8 @@ var startPosition
 var cardHighlighted = false
 var cardClicked = false
 
-var IsCardInHand = false
+@export var CardStatus = Game.CardStatus.Pile
 var PlayersHand
-var PlayersCamera
 
 @export var data:CardData:
 	set(value):
@@ -31,7 +30,9 @@ var PlayersCamera
 func _ready():
 	CardTemplate = $"CardBody/Front/SubViewport/CardTemplate"
 	getNewCard()
-	if IsCardInHand:
+	if CardStatus == Game.CardStatus.Defending or CardStatus == Game.CardStatus.Attacking:
+		PlayersHand = get_parent().get_parent().get_parent().get_node("Hand")
+	if CardStatus == Game.CardStatus.Hand:
 		PlayersHand = get_parent()
 
 func _process(delta):
@@ -68,20 +69,33 @@ func getNewCard():
 	data = tempdata
 
 func _on_collision_shape_3d_mouse_entered():
-	if cardClicked == false && IsCardInHand:
+	if cardClicked == false && CardStatus == Game.CardStatus.Hand:
 		$"CardBody/AnimationPlayer".play("Select")
 		cardHighlighted = true
 
 func _on_collision_shape_3d_mouse_exited():
-	if cardClicked == false && IsCardInHand:
+	if cardClicked == false && CardStatus == Game.CardStatus.Hand:
 		$"CardBody/AnimationPlayer".play("DeSelect")
 		cardHighlighted = false
 
 func _on_collision_shape_3d_input_event(camera, event, position, normal, shape_idx):
-	if (event is InputEventMouseButton) and (event.button_index == 1) && IsCardInHand:
-		if event.button_mask == 1 and cardHighlighted:
-			if !cardClicked:
-				cardClicked = PlayersHand.selectCard($".")
-			else:
-				PlayersHand.deselectCard($".")
-				cardClicked = false
+	if (event is InputEventMouseButton) and (event.button_index == 1) and event.button_mask == 1:
+		if cardHighlighted && CardStatus == Game.CardStatus.Hand:
+			cardInHand()
+		if CardStatus == Game.CardStatus.Attacking:
+			placeDefendingCard()
+		if CardStatus == Game.CardStatus.Defending:
+			takeBackDefendingCard()
+
+func cardInHand():
+	if !cardClicked:
+		cardClicked = PlayersHand.selectCard($".")
+	else:
+		PlayersHand.deselectCard($".")
+		cardClicked = false
+
+func placeDefendingCard():
+	PlayersHand.defendCard($".")
+	
+func takeBackDefendingCard():
+	PlayersHand.takeBackDefendingCard($".")

@@ -81,36 +81,42 @@ script = ExtResource("4_ligll")
 [node name="Card1" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0, -1.18, 0.8)
 visible = false
+CardStatus = 2
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card1"]
 
 [node name="Card2" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0.5, -1.18, 0.8)
 visible = false
+CardStatus = 2
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card2"]
 
 [node name="Card3" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 1, -1.18, 0.8)
 visible = false
+CardStatus = 2
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card3"]
 
 [node name="Card4" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0.25, -1.18, 1.45)
 visible = false
+CardStatus = 2
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card4"]
 
 [node name="Card5" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 0.75, -1.18, 1.45)
 visible = false
+CardStatus = 2
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card5"]
 
 [node name="Card6" parent="PlayerBoard/IncomingAttack" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(1, 0, 0, 0, -4.3714e-08, 1, 0, -1, -4.3714e-08, 1.25, -1.18, 1.45)
 visible = false
+CardStatus = 2
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/IncomingAttack/Card6"]
 
@@ -119,36 +125,42 @@ visible = false
 [node name="Card1" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0, -1.17, 0.84)
 visible = false
+CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card1"]
 
 [node name="Card2" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0.5, -1.17, 0.84)
 visible = false
+CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card2"]
 
 [node name="Card3" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 1, -1.17, 0.84)
 visible = false
+CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card3"]
 
 [node name="Card4" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0.25, -1.17, 1.49)
 visible = false
+CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card4"]
 
 [node name="Card5" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 0.75, -1.17, 1.49)
 visible = false
+CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card5"]
 
 [node name="Card6" parent="PlayerBoard/Defence" instance=ExtResource("4_ngi8t")]
 transform = Transform3D(0.939693, 0.34202, 1.49502e-08, 0, -4.37114e-08, 1, 0.34202, -0.939692, -4.10753e-08, 1.25, -1.17, 1.49)
 visible = false
+CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card6"]
 

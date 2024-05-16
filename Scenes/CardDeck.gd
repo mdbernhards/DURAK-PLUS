@@ -13,6 +13,8 @@ var GameDeck
 
 const CARD = preload("res://Scenes/Card.tscn")
 
+var TrumpCard
+
 func _ready():
 	GameDeck = Array()
 	placeCardsOnTable(shuffleANewDeckOfCards())
@@ -34,6 +36,7 @@ func placeCardsOnTable(cardArray):
 		var card = CARD.instantiate()
 		card.CardValue = cardValue % 14 + 2
 		card.CardSuit = floor(float(cardValue) / 14.0)
+		card.CardStatus = Game.CardStatus.Pile
 		card.rotation.x = deg_to_rad(90)
 		card.rotation.y = 0
 		card.rotation.z = 0
@@ -45,6 +48,7 @@ func placeCardsOnTable(cardArray):
 	GameDeck[0].rotation.x = deg_to_rad(-90)
 	GameDeck[0].rotation.y = deg_to_rad(-90)
 	GameDeck[0].position.x -= 0.17
+	TrumpCard = GameDeck[0]
 		
 #func getCard(value):
 #	var cardSuit = CardSuits[floor(float(value) / 14) - 1]

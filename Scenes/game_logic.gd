@@ -41,18 +41,24 @@ func setPlayerPhases(phase):
 	Players[WhatPlayersTurn-1].current = true
 	Players[WhatPlayersTurn-1].setPhase(Phase)
 
-func attack (selectedCards, attackerId, defenderId):
+func attack(selectedCards, attackerId, defenderId):
 	if attackerId != WhatPlayersTurn:
 		return
 	
 	for selectedCard in selectedCards:
-		Players[defenderId-1].get_node("PlayerBoard").addCard(selectedCard.CardSuit, selectedCard.CardValue)
+		Players[defenderId-1].get_node("PlayerBoard").addAttackCard(selectedCard.CardSuit, selectedCard.CardValue)
 	var Phase = Game.Phase.Defence
 
-func nextTurn():
+func defend(selectedCard, cardName, defenderId):
+	if defenderId != WhatPlayersTurn:
+		return
+		
+	Players[defenderId-1].get_node("PlayerBoard").addDefendCard(selectedCard.CardSuit, selectedCard.CardValue, cardName)
+
+func nextTurn(phase):
 	WhatPlayersTurn += 1
 	
 	if WhatPlayersTurn > playerCount:
 		WhatPlayersTurn -= playerCount
 	
-	setPlayerPhases(Game.Phase.Defence)
+	setPlayerPhases(phase)

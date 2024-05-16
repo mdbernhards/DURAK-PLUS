@@ -1,13 +1,10 @@
 extends Camera3D
 
-var PlayerId
-
-var YourTurn = false
-
 var Hand
 
+var PlayerId
 var Phase = Game.Phase.Waiting
-
+var YourTurn = false
 var Name = "temp"
 
 func _ready():
