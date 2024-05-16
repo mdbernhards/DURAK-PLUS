@@ -10,6 +10,7 @@ var CardData = {
 var CardSuits = ["Spade", "Club", "Heart", "Diamond"]
 
 var GameDeck
+var GameLogic
 
 const CARD = preload("res://Scenes/Card.tscn")
 
@@ -17,6 +18,7 @@ var TrumpCard
 
 func _ready():
 	GameDeck = Array()
+	GameLogic = get_tree().get_first_node_in_group("GameLogic")
 	placeCardsOnTable(shuffleANewDeckOfCards())
 
 func _process(delta):
@@ -44,19 +46,9 @@ func placeCardsOnTable(cardArray):
 		cardCount += 1
 		GameDeck.append(card)
 		add_child(card)
-		
+	
 	GameDeck[0].rotation.x = deg_to_rad(-90)
 	GameDeck[0].rotation.y = deg_to_rad(-90)
 	GameDeck[0].position.x -= 0.17
 	TrumpCard = GameDeck[0]
-		
-#func getCard(value):
-#	var cardSuit = CardSuits[floor(float(value) / 14) - 1]
-#	var cardValue
-#	
-#	for values in CardData[cardSuit]:
-	#	if CardData[cardSuit][values] == tempValue:
-	#		cardValue = values
-	#		var card = CARD.instantiate()
-	#		card.CardValue
-#			add_child(card)
+	GameLogic.TrumpCard = GameDeck[0]

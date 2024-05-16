@@ -1,15 +1,13 @@
 extends Node3D
 
 var CardCount = 0
-var AttackCardsOnBoard = []
-var DefenceCardsOnBoard = []
+var AttackCardsOnBoard
+var DefenceCardsOnBoard
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	AttackCardsOnBoard = []
+	DefenceCardsOnBoard = []
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
@@ -32,10 +30,13 @@ func addAttackCard(cardSuit, cardValue):
 func addDefendCard(cardSuit, cardValue, cardName):
 	var playedCard = $Defence.get_node(String(cardName))
 	
-	playedCard.CardSuit = cardSuit
-	playedCard.CardValue = cardValue
-	playedCard.visible = true
-	DefenceCardsOnBoard.append(playedCard)
+	if playedCard.visible == false:
+		playedCard.CardSuit = cardSuit
+		playedCard.CardValue = cardValue
+		playedCard.visible = true
+		DefenceCardsOnBoard.append(playedCard)
+		return true
+	return false
 
 func getCardName(cardPosition):
 	var cardName = "Card1"

@@ -18,7 +18,7 @@ near = 0.001
 script = ExtResource("1_cql0q")
 
 [node name="Hand" parent="." instance=ExtResource("2_unnxr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.113294, -0.550022, -1.11402)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, -3.27826e-07, 0, 3.27826e-07, 0.8, 0.113294, -0.469531, -0.978274)
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource("3_n6cxw")
@@ -63,6 +63,15 @@ offset_top = 165.0
 offset_right = 292.0
 offset_bottom = 196.0
 text = "Attack"
+
+[node name="EndDefendingButton" type="Button" parent="UILayer/Container"]
+visible = false
+layout_mode = 0
+offset_left = 117.0
+offset_top = 314.0
+offset_right = 189.0
+offset_bottom = 345.0
+text = "End Defending"
 
 [node name="TakeCardsButton" type="Button" parent="UILayer/Container"]
 layout_mode = 0
@@ -166,4 +175,5 @@ CardStatus = 1
 
 [connection signal="pressed" from="UILayer/Container/GetCardButton" to="Hand" method="_on_get_card_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/AttackButton" to="Hand" method="_on_attack_button_pressed"]
+[connection signal="pressed" from="UILayer/Container/EndDefendingButton" to="Hand" method="_on_end_defending_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/TakeCardsButton" to="Hand" method="_on_take_cards_button_pressed"]

@@ -51,7 +51,7 @@ func cardValueToString():
 		return "A"
 	elif CardValue == 15:
 		return "Joker"
-		
+
 func getCardSuit():
 	if CardSuit == 0:
 		return "Diamond"
@@ -69,12 +69,12 @@ func getNewCard():
 	data = tempdata
 
 func _on_collision_shape_3d_mouse_entered():
-	if cardClicked == false && CardStatus == Game.CardStatus.Hand:
+	if cardClicked == false && CardStatus == Game.CardStatus.Hand && PlayersHand.get_parent().Phase != Game.Phase.Waiting:
 		$"CardBody/AnimationPlayer".play("Select")
 		cardHighlighted = true
 
 func _on_collision_shape_3d_mouse_exited():
-	if cardClicked == false && CardStatus == Game.CardStatus.Hand:
+	if cardClicked == false && CardStatus == Game.CardStatus.Hand && PlayersHand.get_parent().Phase != Game.Phase.Waiting:
 		$"CardBody/AnimationPlayer".play("DeSelect")
 		cardHighlighted = false
 
@@ -99,3 +99,6 @@ func placeDefendingCard():
 	
 func takeBackDefendingCard():
 	PlayersHand.takeBackDefendingCard($".")
+	
+func reset():
+	$CardBody/AnimationPlayer.play("DeSelect")

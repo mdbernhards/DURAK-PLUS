@@ -29,6 +29,12 @@ func setUiVisibility():
 		$UILayer/Container/TakeCardsButton.visible = true
 	else:
 		$UILayer/Container/TakeCardsButton.visible = false
+		
+	if Phase == Game.Phase.Defence:
+		if $PlayerBoard.AttackCardsOnBoard.size() == $PlayerBoard.DefenceCardsOnBoard.size():
+			$UILayer/Container/EndDefendingButton.visible = true
+		else:
+			$UILayer/Container/EndDefendingButton.visible = false
 	
 func getPlayerId():
 	var groups = get_groups()

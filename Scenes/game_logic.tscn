@@ -70,3 +70,9 @@ transform = Transform3D(-0.299996, 0.00163883, 0, -0.00163883, -0.299996, 0, 0, 
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xd82s")
+
+[node name="DealCardsTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="DealCardsTimer" to="." method="_on_timer_timeout"]

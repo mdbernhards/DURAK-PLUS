@@ -4,6 +4,7 @@ var playerCount = 6
 var WhatPlayersTurn = 1
 var Players
 var Phase = Game.Phase.Attack
+var TrumpCard
 
 func _ready():
 	Players = get_tree().get_nodes_in_group("Player")
@@ -52,13 +53,21 @@ func attack(selectedCards, attackerId, defenderId):
 func defend(selectedCard, cardName, defenderId):
 	if defenderId != WhatPlayersTurn:
 		return
-		
-	Players[defenderId-1].get_node("PlayerBoard").addDefendCard(selectedCard.CardSuit, selectedCard.CardValue, cardName)
+	
+	return Players[defenderId-1].get_node("PlayerBoard").addDefendCard(selectedCard.CardSuit, selectedCard.CardValue, cardName)
 
-func nextTurn(phase):
-	WhatPlayersTurn += 1
+func nextTurn(phase, nextPlayer):
+	if nextPlayer:
+		WhatPlayersTurn += 1
 	
 	if WhatPlayersTurn > playerCount:
 		WhatPlayersTurn -= playerCount
 	
+	if phase == Game.Phase.Attack:
+		$DealCardsTimer.start()
+	
 	setPlayerPhases(phase)
+
+
+func _on_timer_timeout():
+	dealCards()

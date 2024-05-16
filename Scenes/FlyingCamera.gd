@@ -27,7 +27,7 @@ func enableFlying(delta):
 		velocity += direction * acceleration * delta
 	if velocity.length() > mouseSpeed:
 		velocity = velocity.normalized() * moveSpeed
-		
+	
 	translate(velocity * delta)
 	
 func updateDirection():
@@ -46,5 +46,5 @@ func updateDirection():
 		dir += Vector3.DOWN
 	if dir == Vector3.ZERO:
 		velocity = Vector3.ZERO
-		
+	
 	return dir.normalized()

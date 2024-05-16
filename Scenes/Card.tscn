@@ -12,8 +12,8 @@ viewport_path = NodePath("CardBody/Front/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpuk8"]
 resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.215
+transparency = 3
+alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
 albedo_texture = SubResource("ViewportTexture_a8xfl")
 metallic_specular = 0.24
@@ -26,8 +26,8 @@ material = SubResource("StandardMaterial3D_dpuk8")
 size = Vector2(1, 1.4)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jk32y"]
-transparency = 2
-alpha_scissor_threshold = 0.5
+transparency = 3
+alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
 albedo_texture = ExtResource("2_fj1h7")
 metallic = 0.37
