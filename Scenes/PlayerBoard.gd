@@ -1,6 +1,5 @@
 extends Node3D
 
-var CardCount = 0
 var AttackCardsOnBoard
 var DefenceCardsOnBoard
 
@@ -12,14 +11,9 @@ func _process(delta):
 	pass
 
 func addAttackCard(cardSuit, cardValue):
-	CardCount += 1
-	
-	if CardCount > 6:
-		CardCount -= 1
-		return
+	var count = AttackCardsOnBoard.size()
 		
-	var cardName = getCardName(CardCount)
-
+	var cardName = getCardName(count + 1)
 	var playedCard = $IncomingAttack.get_node(cardName)
 	
 	playedCard.CardSuit = cardSuit
@@ -53,3 +47,14 @@ func getCardName(cardPosition):
 		return "Card5"
 	elif cardPosition == 6:
 		return "Card6"
+
+#func removeInvisibleCards():
+#	for attackCard in AttackCardsOnBoard:
+#		if attackCard.visible == false:
+#			AttackCardsOnBoard.erase(attackCard)
+#			attackCard.queue_free()
+#		
+#	for defenceCard in DefenceCardsOnBoard:
+#		if defenceCard.visible == false:
+#			DefenceCardsOnBoard.erase(defenceCard)
+#			defenceCard.queue_free()

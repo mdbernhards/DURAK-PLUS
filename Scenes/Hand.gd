@@ -16,6 +16,10 @@ var PlayerBoard
 var SelectedCards
 var DefendingCards
 
+
+var AttackerId
+var DefenderId
+
 func _ready():
 	CardDeck = get_tree().get_first_node_in_group("CardDeck")
 	SelectedCards = []
@@ -23,6 +27,8 @@ func _ready():
 	GameLogic = get_tree().get_first_node_in_group("GameLogic")
 	PlayerCamera = get_parent()
 	PlayerBoard = PlayerCamera.get_node("PlayerBoard")
+	AttackerId = PlayerCamera.getPlayerId()
+	DefenderId = AttackerId + 1
 
 func _process(delta):
 	pass
@@ -73,48 +79,6 @@ func fillHand():
 	for _i in MIN_CARDS_IN_HAND - count:
 		pullCardFromDeck()
 
-func _on_get_card_button_pressed():
-	pullCardFromDeck()
-
-func _on_attack_button_pressed():
-	var attackerId = PlayerCamera.PlayerId
-	var defenderId = PlayerCamera.PlayerId + 1
-	if defenderId > GameLogic.playerCount:
-		defenderId -= GameLogic.playerCount
-	
-	GameLogic.attack(SelectedCards, attackerId, defenderId)
-	
-	for card in SelectedCards:
-		card.free()
-	
-	SelectedCards.clear()
-	GameLogic.nextTurn(Game.Phase.Defence, true)
-	spaceOutCards()
-
-func _on_take_cards_button_pressed():
-	for card in PlayerBoard.AttackCardsOnBoard:
-		addCard(card.CardValue, card.CardSuit)
-		card.queue_free()
-	
-	for card in PlayerBoard.DefenceCardsOnBoard:
-		addCard(card.CardValue, card.CardSuit)
-		card.queue_free()
-	
-	PlayerBoard.AttackCardsOnBoard.clear()
-	PlayerBoard.DefenceCardsOnBoard.clear()
-	GameLogic.nextTurn(Game.Phase.Attack, true)
-
-func _on_end_defending_button_pressed():
-	for card in PlayerBoard.AttackCardsOnBoard:
-		card.queue_free()
-	
-	for card in PlayerBoard.DefenceCardsOnBoard:
-		card.queue_free()
-	
-	PlayerBoard.AttackCardsOnBoard.clear()
-	PlayerBoard.DefenceCardsOnBoard.clear()
-	GameLogic.nextTurn(Game.Phase.Attack, false)
-
 func selectCard(card):
 	if (SelectedCards.size() == 0 or DefendingCards.size() > 0) and PlayerCamera.Phase != Game.Phase.Waiting:
 		SelectedCards.append(card)
@@ -150,3 +114,69 @@ func takeBackDefendingCard(card):
 			defCard.cardInHand()
 			DefendingCards.erase(defCard)
 			PlayerBoard.DefenceCardsOnBoard.erase(card)
+
+func removeInvisibleCards():
+	for card in get_children():
+		if card.visible == false:
+			card.queue_free()
+
+func cleanBoard():
+	for card in SelectedCards:
+		card.free()
+		
+	for card in PlayerBoard.AttackCardsOnBoard:
+		card.visible = false
+	
+	for card in PlayerBoard.DefenceCardsOnBoard:
+		card.visible = false
+	
+	PlayerBoard.AttackCardsOnBoard.clear()
+	PlayerBoard.DefenceCardsOnBoard.clear()
+	SelectedCards.clear()
+	DefendingCards.clear()
+
+func _on_get_card_button_pressed():
+	pullCardFromDeck()
+
+func _on_attack_button_pressed():
+	if DefenderId > GameLogic.playerCount:
+		DefenderId -= GameLogic.playerCount
+	
+	GameLogic.attack(SelectedCards, AttackerId, DefenderId)
+	
+	cleanBoard()
+	
+	GameLogic.nextTurn(Game.Phase.Defence, true)
+	spaceOutCards()
+
+func _on_take_cards_button_pressed():
+	for card in PlayerBoard.AttackCardsOnBoard:
+		addCard(card.CardValue, card.CardSuit)
+	
+	for card in PlayerBoard.DefenceCardsOnBoard:
+		addCard(card.CardValue, card.CardSuit)
+	
+	cleanBoard()
+	GameLogic.nextTurn(Game.Phase.Attack, true)
+
+func _on_end_defending_button_pressed():
+	cleanBoard()
+	GameLogic.nextTurn(Game.Phase.Attack, false)
+	
+func _on_bonus_attack_button_pressed():
+	pass # Replace with function body.
+
+func _on_pass_cards_button_pressed():
+	SelectedCards.append_array(PlayerBoard.AttackCardsOnBoard)
+	PlayerBoard.AttackCardsOnBoard.clear()
+	GameLogic.attack(SelectedCards, AttackerId, DefenderId)
+	
+	cleanBoard()
+	
+	GameLogic.nextTurn(Game.Phase.Defence, true)
+
+func _on_sort_value_button_pressed():
+	pass # Replace with function body.
+
+func _on_sort_suit_button_pressed():
+	pass # Replace with function body.

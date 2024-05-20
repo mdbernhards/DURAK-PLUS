@@ -18,7 +18,7 @@ min_value = -1.0
 _data = [Vector2(0, 0.667564), 0.0, -2.56656, 0, 0, Vector2(0.501742, -0.0480906), 0.0, 0.0, 0, 0, Vector2(1, -0.66218), -1.78928, 0.0, 0, 0]
 point_count = 3
 
-[node name="Hand" type="Node3D"]
+[node name="Hand" type="Node3D" groups=["Hand"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.113294, -0.348011, -0.883956)
 script = ExtResource("1_ahj8d")
 spread_curve = SubResource("Curve_pcihf")

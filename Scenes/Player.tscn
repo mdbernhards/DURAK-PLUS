@@ -56,7 +56,6 @@ offset_bottom = 118.0
 text = "GetCard"
 
 [node name="AttackButton" type="Button" parent="UILayer/Container" groups=["AttackButton"]]
-visible = false
 layout_mode = 0
 offset_left = 220.0
 offset_top = 165.0
@@ -64,8 +63,40 @@ offset_right = 292.0
 offset_bottom = 196.0
 text = "Attack"
 
-[node name="EndDefendingButton" type="Button" parent="UILayer/Container"]
+[node name="SortValueButton" type="Button" parent="UILayer/Container"]
+layout_mode = 0
+offset_left = 1788.0
+offset_top = 927.0
+offset_right = 1899.0
+offset_bottom = 958.0
+text = "Sort By Value"
+
+[node name="SortSuitButton" type="Button" parent="UILayer/Container"]
+layout_mode = 0
+offset_left = 1788.0
+offset_top = 979.0
+offset_right = 1885.0
+offset_bottom = 1010.0
+text = "Sort By Suit"
+
+[node name="BonusAttackButton" type="Button" parent="UILayer/Container" groups=["AttackButton"]]
+layout_mode = 0
+offset_left = 365.0
+offset_top = 224.0
+offset_right = 437.0
+offset_bottom = 255.0
+text = "Bonus Attack"
+
+[node name="PassCardsButton" type="Button" parent="UILayer/Container" groups=["AttackButton"]]
 visible = false
+layout_mode = 0
+offset_left = 152.0
+offset_top = 238.0
+offset_right = 224.0
+offset_bottom = 269.0
+text = "Pass Cards"
+
+[node name="EndDefendingButton" type="Button" parent="UILayer/Container"]
 layout_mode = 0
 offset_left = 117.0
 offset_top = 314.0
@@ -81,7 +112,7 @@ offset_right = 475.0
 offset_bottom = 119.0
 text = "Take The Cards"
 
-[node name="PlayerBoard" type="Node3D" parent="."]
+[node name="PlayerBoard" type="Node3D" parent="." groups=["PlayerBoard"]]
 transform = Transform3D(1, 0, 0, 0, 0.760406, -0.649448, 0, 0.649448, 0.760406, -0.365636, 1.42495, -1.97145)
 script = ExtResource("4_ligll")
 
@@ -175,5 +206,9 @@ CardStatus = 1
 
 [connection signal="pressed" from="UILayer/Container/GetCardButton" to="Hand" method="_on_get_card_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/AttackButton" to="Hand" method="_on_attack_button_pressed"]
+[connection signal="pressed" from="UILayer/Container/SortValueButton" to="Hand" method="_on_sort_value_button_pressed"]
+[connection signal="pressed" from="UILayer/Container/SortSuitButton" to="Hand" method="_on_sort_suit_button_pressed"]
+[connection signal="pressed" from="UILayer/Container/BonusAttackButton" to="Hand" method="_on_bonus_attack_button_pressed"]
+[connection signal="pressed" from="UILayer/Container/PassCardsButton" to="Hand" method="_on_pass_cards_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/EndDefendingButton" to="Hand" method="_on_end_defending_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/TakeCardsButton" to="Hand" method="_on_take_cards_button_pressed"]

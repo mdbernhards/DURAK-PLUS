@@ -24,8 +24,7 @@ func getPlayersInOrder():
 	var players = []
 	
 	for playerIndex in range(WhatPlayersTurn, playerCount+WhatPlayersTurn):
-		if playerIndex > playerCount:
-			playerIndex -= playerCount
+		playerIndex = getPlayerIdCorrectly(playerIndex)
 		
 		players.append(Players[playerIndex - 1])
 	
@@ -45,6 +44,8 @@ func setPlayerPhases(phase):
 func attack(selectedCards, attackerId, defenderId):
 	if attackerId != WhatPlayersTurn:
 		return
+		
+	defenderId = getPlayerIdCorrectly(defenderId)
 	
 	for selectedCard in selectedCards:
 		Players[defenderId-1].get_node("PlayerBoard").addAttackCard(selectedCard.CardSuit, selectedCard.CardValue)
@@ -59,15 +60,27 @@ func defend(selectedCard, cardName, defenderId):
 func nextTurn(phase, nextPlayer):
 	if nextPlayer:
 		WhatPlayersTurn += 1
+		
+	WhatPlayersTurn = getPlayerIdCorrectly(WhatPlayersTurn)
 	
-	if WhatPlayersTurn > playerCount:
-		WhatPlayersTurn -= playerCount
-	
+	removeAllInvisibleCards()
 	if phase == Game.Phase.Attack:
 		$DealCardsTimer.start()
 	
 	setPlayerPhases(phase)
 
+func removeAllInvisibleCards():
+	var hands = get_tree().get_nodes_in_group("Hand")
+	var playerBoards = get_tree().get_nodes_in_group("PlayerBoard")
+	
+	for hand in hands:
+		hand.removeInvisibleCards()
+
+func getPlayerIdCorrectly(playerId):
+	if playerId > playerCount:
+		return playerId - playerCount
+	else:
+		return playerId
 
 func _on_timer_timeout():
 	dealCards()

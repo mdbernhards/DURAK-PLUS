@@ -51,4 +51,4 @@ func placeCardsOnTable(cardArray):
 	GameDeck[0].rotation.y = deg_to_rad(-90)
 	GameDeck[0].position.x -= 0.17
 	TrumpCard = GameDeck[0]
-	GameLogic.TrumpCard = GameDeck[0]
+	GameLogic.TrumpCard = GameDeck[0].duplicate()
