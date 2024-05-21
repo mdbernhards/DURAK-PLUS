@@ -6,10 +6,13 @@ var PlayerId
 var Phase = Game.Phase.Waiting
 var YourTurn = false
 var Name = "temp"
+var GameLogic
+var FinalPlace
 
 func _ready():
 	Hand = $Hand
 	PlayerId = getPlayerId()
+	GameLogic = get_parent().get_parent()
 
 func _process(delta):
 	if current:
@@ -49,6 +52,25 @@ func setUiVisibility():
 		$UILayer/Container/EndDefendingButton.visible = false
 		$UILayer/Container/PassCardsButton.visible = false
 	
+	var isBonusAttackVisible = false
+	if Phase == Game.Phase.Waiting and PlayerId != GameLogic.WhatPlayersTurn:
+		var playerBoard = GameLogic.getTheCurrentPlayersBoard()
+		if playerBoard.AttackCardsOnBoard.size() < 6:
+			for attackCard in playerBoard.AttackCardsOnBoard:
+				if Hand.SelectedCards and attackCard.CardValue == Hand.SelectedCards[0].CardValue:
+					isBonusAttackVisible = true
+			for defenceCard in playerBoard.DefenceCardsOnBoard:
+				if Hand.SelectedCards and defenceCard.CardValue == Hand.SelectedCards[0].CardValue:
+					isBonusAttackVisible = true
+		$UILayer/Container/BonusAttackButton.visible = isBonusAttackVisible
+
+func setWinner(finalPlace):
+	FinalPlace = finalPlace
+	setPhase(Game.Phase.Win)
+
+func setLoser():
+	pass
+
 func getPlayerId():
 	var groups = get_groups()
 	
@@ -75,6 +97,10 @@ func setPhase(phase):
 		defencePhase()
 	if Phase == Game.Phase.Waiting:
 		waitingPhase()
+	if Phase == Game.Phase.Win:
+		waitingPhase()
+	if Phase == Game.Phase.Lose:
+		waitingPhase()
 
 func attackPhase():
 	$UILayer/Container/PhaseLabel.text = "Attack"
@@ -84,3 +110,19 @@ func defencePhase():
 
 func waitingPhase():
 	$UILayer/Container/PhaseLabel.text = "Waiting.."
+
+func winPhase():
+	$UILayer/Container/PhaseLabel.text = getWinText()
+
+func losePhase():
+	$UILayer/Container/PhaseLabel.text = "DURAK!"
+
+func getWinText():
+	if FinalPlace == 1:
+		return FinalPlace + "st place"
+	if FinalPlace == 2:
+		return FinalPlace + "nd place"
+	if FinalPlace == 3:
+		return FinalPlace + "rd place"
+	else:
+		return FinalPlace + "th place"

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bdckpfgi1hppw"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.392157, 0.392157, 0.392157, 0.45098)
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 899.0
+offset_top = 217.0
+offset_right = 1008.0
+offset_bottom = 294.0
+theme_override_font_sizes/font_size = 50
+text = "Play"
+
+[node name="OptionsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 899.0
+offset_top = 323.0
+offset_right = 1008.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 50
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 899.0
+offset_top = 436.0
+offset_right = 1008.0
+offset_bottom = 513.0
+theme_override_font_sizes/font_size = 50
+text = "Quit"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 836.0
+offset_top = 57.0
+offset_right = 1093.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 75
+text = "DURAK"

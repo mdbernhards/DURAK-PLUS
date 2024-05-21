@@ -3,16 +3,24 @@ extends Node3D
 var playerCount = 6
 var WhatPlayersTurn = 1
 var Players
+var Winners
 var Phase = Game.Phase.Attack
 var TrumpCard
 
 func _ready():
-	Players = get_tree().get_nodes_in_group("Player")
+	setUpPlayers()
 	dealCards()
 	setPlayerPhases(Game.Phase.Attack)
+	Winners = []
 
 func _process(delta):
 	pass
+
+func setUpPlayers():
+	Players = get_tree().get_nodes_in_group("Player")
+	for i in Players.size():
+		if i > playerCount:
+			Players.erase(Players[i])
 
 func dealCards():
 	var players = getPlayersInOrder()
@@ -68,6 +76,18 @@ func nextTurn(phase, nextPlayer):
 		$DealCardsTimer.start()
 	
 	setPlayerPhases(phase)
+	checkPlayerWinConditions()
+
+func checkPlayerWinConditions():
+	for player in Players:
+		if player.get_node("Hand").get_children().size() == 0 and get_node("CardDeck").GameDeck.size() == 0:
+			if playerCount > 1 and !(player.Phase == Game.Phase.Win or player.Phase == Game.Phase.Lose) :
+				Winners.append(player)
+				Players.erase(player)
+				playerCount -= 1
+				player.setWinner()
+			else:
+				player.setLoser()
 
 func removeAllInvisibleCards():
 	var hands = get_tree().get_nodes_in_group("Hand")
@@ -81,6 +101,9 @@ func getPlayerIdCorrectly(playerId):
 		return playerId - playerCount
 	else:
 		return playerId
-
+		
+func getTheCurrentPlayersBoard():
+	return Players[WhatPlayersTurn-1].get_node("PlayerBoard")
+	
 func _on_timer_timeout():
 	dealCards()

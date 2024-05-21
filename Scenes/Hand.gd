@@ -158,6 +158,7 @@ func _on_take_cards_button_pressed():
 	
 	cleanBoard()
 	GameLogic.nextTurn(Game.Phase.Attack, true)
+	spaceOutCards()
 
 func _on_end_defending_button_pressed():
 	cleanBoard()
@@ -167,16 +168,38 @@ func _on_bonus_attack_button_pressed():
 	pass # Replace with function body.
 
 func _on_pass_cards_button_pressed():
-	SelectedCards.append_array(PlayerBoard.AttackCardsOnBoard)
-	PlayerBoard.AttackCardsOnBoard.clear()
-	GameLogic.attack(SelectedCards, AttackerId, DefenderId)
+	var tempArray = []
+	tempArray.append_array(SelectedCards)
+	tempArray.append_array(PlayerBoard.AttackCardsOnBoard)
+	GameLogic.attack(tempArray, AttackerId, DefenderId)
 	
+	spaceOutCards()
 	cleanBoard()
 	
 	GameLogic.nextTurn(Game.Phase.Defence, true)
 
 func _on_sort_value_button_pressed():
-	pass # Replace with function body.
+	sortCards("value")
 
 func _on_sort_suit_button_pressed():
-	pass # Replace with function body.
+	sortCards("suit")
+	
+func sortCards(sortType):
+	var sortedNodes := get_children()
+	
+	if (sortType == "value"):
+		sortedNodes.sort_custom( 
+			func(a: Node, b: Node): 
+				return a.CardValue < b.CardValue)
+	elif (sortType == "suit"):
+		sortedNodes.sort_custom( 
+			func(a: Node, b: Node): 
+				return a.CardSuit < b.CardSuit)
+				
+	for node in get_children():
+		remove_child(node)
+
+	for node in sortedNodes:
+		add_child(node)
+		
+	spaceOutCards()

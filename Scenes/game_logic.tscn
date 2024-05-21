@@ -75,4 +75,10 @@ environment = SubResource("Environment_xd82s")
 wait_time = 0.113
 one_shot = true
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+
 [connection signal="timeout" from="DealCardsTimer" to="." method="_on_timer_timeout"]
