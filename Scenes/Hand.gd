@@ -16,9 +16,7 @@ var PlayerBoard
 var SelectedCards
 var DefendingCards
 
-
-var AttackerId
-var DefenderId
+var PlayerId
 
 func _ready():
 	CardDeck = get_tree().get_first_node_in_group("CardDeck")
@@ -27,11 +25,15 @@ func _ready():
 	GameLogic = get_tree().get_first_node_in_group("GameLogic")
 	PlayerCamera = get_parent()
 	PlayerBoard = PlayerCamera.get_node("PlayerBoard")
-	AttackerId = PlayerCamera.getPlayerId()
-	DefenderId = AttackerId + 1
+	PlayerId = PlayerCamera.getPlayerId()
 
 func _process(delta):
-	pass
+	checkIfWinner()
+	
+func checkIfWinner():
+	if (PlayerCamera.Phase == Game.Phase.Win or PlayerCamera.Phase == Game.Phase.Lose) and (PlayerCamera.PlayerId == GameLogic.WhatPlayersTurn):
+		GameLogic.nextTurn(Game.Phase.Attack, true)
+	
 
 func spaceOutCards():
 	for card in get_children():
@@ -139,10 +141,8 @@ func _on_get_card_button_pressed():
 	pullCardFromDeck()
 
 func _on_attack_button_pressed():
-	if DefenderId > GameLogic.playerCount:
-		DefenderId -= GameLogic.playerCount
-	
-	GameLogic.attack(SelectedCards, AttackerId, DefenderId)
+	GameLogic.checkPlayerWinConditions()
+	GameLogic.attack(SelectedCards, PlayerId, -1)
 	
 	cleanBoard()
 	
@@ -160,8 +160,9 @@ func _on_take_cards_button_pressed():
 	GameLogic.nextTurn(Game.Phase.Attack, true)
 	spaceOutCards()
 
-func _on_end_defending_button_pressed():
+func _on_end_defending_button_pressed(): # Defend
 	cleanBoard()
+	GameLogic.checkPlayerWinConditions()
 	GameLogic.nextTurn(Game.Phase.Attack, false)
 	
 func _on_bonus_attack_button_pressed():
@@ -171,11 +172,12 @@ func _on_pass_cards_button_pressed():
 	var tempArray = []
 	tempArray.append_array(SelectedCards)
 	tempArray.append_array(PlayerBoard.AttackCardsOnBoard)
-	GameLogic.attack(tempArray, AttackerId, DefenderId)
+	GameLogic.attack(tempArray, PlayerId, -1)
 	
 	spaceOutCards()
 	cleanBoard()
 	
+	GameLogic.checkPlayerWinConditions()
 	GameLogic.nextTurn(Game.Phase.Defence, true)
 
 func _on_sort_value_button_pressed():

@@ -19,8 +19,13 @@ func _process(delta):
 		$UILayer.visible = true
 	else:
 		$UILayer.visible = false
-		
-	setUiVisibility()
+	
+	if Phase == Game.Phase.Win:
+		winPhase()
+	elif Phase == Game.Phase.Lose:
+		losePhase()
+	else:
+		setUiVisibility()
 
 func setUiVisibility():
 	if Hand and Hand.SelectedCards.size() > 0 and Phase == Game.Phase.Attack:
@@ -119,10 +124,10 @@ func losePhase():
 
 func getWinText():
 	if FinalPlace == 1:
-		return FinalPlace + "st place"
+		return str(FinalPlace) + "st place"
 	if FinalPlace == 2:
-		return FinalPlace + "nd place"
+		return str(FinalPlace) + "nd place"
 	if FinalPlace == 3:
-		return FinalPlace + "rd place"
+		return str(FinalPlace) + "rd place"
 	else:
-		return FinalPlace + "th place"
+		return str(FinalPlace) + "th place"
