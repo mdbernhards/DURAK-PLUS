@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://dda61o5pbve7i"]
+
+[ext_resource type="Script" path="res://Scenes/UIScenes/lobby.gd" id="1_3xtad"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lx5it"]
+properties/0/path = NodePath(".:PlayersCurrently")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3xtad")
+
+[node name="JoinUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Host" type="Button" parent="JoinUI"]
+offset_left = 896.0
+offset_top = 334.0
+offset_right = 1017.0
+offset_bottom = 411.0
+theme_override_font_sizes/font_size = 50
+text = "Host"
+
+[node name="Join" type="Button" parent="JoinUI"]
+offset_left = 906.0
+offset_top = 454.0
+offset_right = 1006.0
+offset_bottom = 531.0
+theme_override_font_sizes/font_size = 50
+text = "Join"
+
+[node name="Back" type="Button" parent="JoinUI"]
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 122.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 50
+text = "Back"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/game_logic.tscn")
+spawn_path = NodePath("..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.3
+delta_interval = 0.3
+replication_config = SubResource("SceneReplicationConfig_lx5it")
+
+[connection signal="pressed" from="JoinUI/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="JoinUI/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="JoinUI/Back" to="." method="_on_back_pressed"]

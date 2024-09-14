@@ -1,27 +1,27 @@
 extends Node3D
 
-var PlayerCount = 6
-var WhatPlayersTurn = 1
-var Players
-var Winners
-var Phase = Game.Phase.Attack
-var TrumpCard
-var FinalPlace = 1
+@export var WhatPlayersTurn = 1
+var Players = []
+var Winners = []
+@export var Phase = Game.Phase.Attack
+var TrumpCard = preload("res://Scenes/Card.tscn")
+@export var FinalPlace = 1
 
 func _ready():
 	Winners = []
-	setUpPlayers()
 	dealCards()
 	setPlayerPhases(Game.Phase.Attack)
 
 func _process(delta):
 	checkPlayerWinConditions()
+	checkIfGameEnded()
 
-func setUpPlayers():
+func setUpPlayers(playerCount):
 	Players = get_tree().get_nodes_in_group("Player")
 	for i in Players.size():
-		if i > PlayerCount:
-			Players.erase(Players[i])
+		if i >= playerCount:
+			var player = Players.pop_back()
+			player.queue_free()
 
 func dealCards():
 	var players = getPlayersInOrder()
@@ -30,6 +30,9 @@ func dealCards():
 		player.get_node("Hand").fillHand()
 
 func getPlayersInOrder():
+	if !Players:
+		setUpPlayers(6)
+	
 	var players = []
 	
 	for playerIndex in range(WhatPlayersTurn, Players.size()+WhatPlayersTurn):
@@ -45,16 +48,13 @@ func setPlayerPhases(phase):
 	for player in Players:
 		if !(player.Phase == Game.Phase.Win or player.Phase == Game.Phase.Lose):
 			player.YourTurn = false
-			player.current = false
 			player.setPhase(Game.Phase.Waiting)
 	for player in Winners:
 		player.YourTurn = false
-		player.current = false
 		player.setPhase(Game.Phase.Win)
 		
 	if !(Players[WhatPlayersTurn-1].Phase == Game.Phase.Win or Players[WhatPlayersTurn-1].Phase == Game.Phase.Lose):
 		Players[WhatPlayersTurn-1].YourTurn = true
-		Players[WhatPlayersTurn-1].current = true
 		Players[WhatPlayersTurn-1].setPhase(Phase)
 
 func attack(selectedCards, attackerId, defenderId):
@@ -93,7 +93,7 @@ func defend(selectedCard, cardName, defenderId):
 	return Players[defenderId-1].get_node("PlayerBoard").addDefendCard(selectedCard.CardSuit, selectedCard.CardValue, cardName)
 
 func nextTurn(phase, nextPlayer):
-	if Players.size() == 1:
+	if Players.size() - Winners.size() == 1:
 		Players[0].setLoser()
 		return
 	
@@ -105,19 +105,6 @@ func nextTurn(phase, nextPlayer):
 		$DealCardsTimer.start()
 	
 	setPlayerPhases(phase)
-	checkPlayerWinConditions()
-
-func checkIfGameEnded():
-	var activePlayerCount = 0
-	var lastActivePlayer
-	for player in Players:
-		if !(player.Phase == Game.Phase.Win or player.Phase == Game.Phase.Lose):
-			activePlayerCount += 1
-			lastActivePlayer = player
-	
-	if activePlayerCount == 1:
-		lastActivePlayer.setLoser()
-		return
 
 func checkPlayerWinConditions():
 	for player in Players:
@@ -127,7 +114,18 @@ func checkPlayerWinConditions():
 					Winners.append(player)
 					player.setWinner(FinalPlace)
 					FinalPlace += 1
-	checkIfGameEnded()
+
+func checkIfGameEnded():
+	var activePlayerCount = Players.size() - Winners.size()
+	
+	if activePlayerCount == 1:
+		var lastActivePlayer
+		for player in Players:
+			if !(player.Phase == Game.Phase.Win or player.Phase == Game.Phase.Lose):
+				player.setLoser()
+
+func getCurrentPlayerMaxAttack():
+	return getNextPlayer(WhatPlayersTurn).get_node("Hand").get_child_count()
 
 func removeAllInvisibleCards():
 	var hands = get_tree().get_nodes_in_group("Hand")

@@ -2,12 +2,13 @@ extends Camera3D
 
 var Hand
 
-var PlayerId
-var Phase = Game.Phase.Waiting
+@export var PlayerId = 1
+@export var Phase = Game.Phase.Waiting
 var YourTurn = false
-var Name = "temp"
 var GameLogic
 var FinalPlace
+
+@export var PearId = 1
 
 func _ready():
 	Hand = $Hand
@@ -15,10 +16,6 @@ func _ready():
 	GameLogic = get_parent().get_parent()
 
 func _process(delta):
-	if current:
-		$UILayer.visible = true
-	else:
-		$UILayer.visible = false
 	
 	if Phase == Game.Phase.Win:
 		winPhase()
@@ -26,9 +23,19 @@ func _process(delta):
 		losePhase()
 	else:
 		setUiVisibility()
+	
+	if is_multiplayer_authority():
+		make_current()
+	else:
+		current = false
+
+func enterTree():
+	set_multiplayer_authority(PearId)
 
 func setUiVisibility():
-	if Hand and Hand.SelectedCards.size() > 0 and Phase == Game.Phase.Attack:
+	var maxAttack = GameLogic.getCurrentPlayerMaxAttack()
+	
+	if Hand and Hand.SelectedCards.size() > 0 and Phase == Game.Phase.Attack and maxAttack >= Hand.SelectedCards.size():
 		$UILayer/Container/AttackButton.visible = true
 	else:
 		$UILayer/Container/AttackButton.visible = false
@@ -45,7 +52,7 @@ func setUiVisibility():
 			$UILayer/Container/EndDefendingButton.visible = false
 		
 		var isPassButtonVisible = true
-		if Hand.SelectedCards.size() == 1:
+		if Hand.SelectedCards.size() == 1 and maxAttack > $PlayerBoard.AttackCardsOnBoard.size():
 			for attackCard in $PlayerBoard.AttackCardsOnBoard:
 				if attackCard.CardValue != Hand.SelectedCards[0].CardValue:
 					isPassButtonVisible = false
@@ -74,7 +81,8 @@ func setWinner(finalPlace):
 	setPhase(Game.Phase.Win)
 
 func setLoser():
-	pass
+	setPhase(Game.Phase.Lose)
+	$GameEndTimer.start() # some signal to Game Logic or Loby Logic
 
 func getPlayerId():
 	var groups = get_groups()

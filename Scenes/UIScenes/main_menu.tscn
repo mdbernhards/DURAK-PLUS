@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://bdckpfgi1hppw"]
+[gd_scene load_steps=3 format=3 uid="uid://bdckpfgi1hppw"]
+
+[ext_resource type="Script" path="res://Scenes/UIScenes/main_menu.gd" id="1_f344d"]
+[ext_resource type="PackedScene" uid="uid://dda61o5pbve7i" path="res://Scenes/UIScenes/lobby.tscn" id="2_2gk3a"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -7,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_f344d")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -15,10 +19,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.392157, 0.392157, 0.392157, 0.45098)
+color = Color(0.231373, 0.439216, 0.388235, 0.45098)
 
-[node name="PlayButton" type="Button" parent="."]
-layout_mode = 0
+[node name="Lobby" parent="." instance=ExtResource("2_2gk3a")]
+layout_mode = 1
+
+[node name="MainMenuObjects" type="CanvasLayer" parent="."]
+
+[node name="PlayButton" type="Button" parent="MainMenuObjects"]
 offset_left = 899.0
 offset_top = 217.0
 offset_right = 1008.0
@@ -26,29 +34,30 @@ offset_bottom = 294.0
 theme_override_font_sizes/font_size = 50
 text = "Play"
 
-[node name="OptionsButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 899.0
-offset_top = 323.0
-offset_right = 1008.0
-offset_bottom = 400.0
+[node name="OptionsButton" type="Button" parent="MainMenuObjects"]
+offset_left = 856.0
+offset_top = 329.0
+offset_right = 1055.0
+offset_bottom = 406.0
 theme_override_font_sizes/font_size = 50
 text = "Options"
 
-[node name="QuitButton" type="Button" parent="."]
-layout_mode = 0
+[node name="QuitButton" type="Button" parent="MainMenuObjects"]
 offset_left = 899.0
-offset_top = 436.0
-offset_right = 1008.0
-offset_bottom = 513.0
+offset_top = 440.0
+offset_right = 1012.0
+offset_bottom = 517.0
 theme_override_font_sizes/font_size = 50
 text = "Quit"
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
+[node name="Label" type="Label" parent="MainMenuObjects"]
 offset_left = 836.0
 offset_top = 57.0
 offset_right = 1093.0
 offset_bottom = 160.0
 theme_override_font_sizes/font_size = 75
 text = "DURAK"
+
+[connection signal="pressed" from="MainMenuObjects/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuObjects/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="MainMenuObjects/QuitButton" to="." method="_on_quit_button_pressed"]

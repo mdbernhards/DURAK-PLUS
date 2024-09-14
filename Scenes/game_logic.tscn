@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://605s5ccg26ad"]
+[gd_scene load_steps=11 format=3 uid="uid://605s5ccg26ad"]
 
 [ext_resource type="Script" path="res://Scenes/game_logic.gd" id="1_e3neb"]
 [ext_resource type="PackedScene" uid="uid://bfu0fgb47773" path="res://Scenes/Player.tscn" id="2_26qlr"]
@@ -21,6 +21,17 @@ sky_material = SubResource("ProceduralSkyMaterial_id7bs")
 background_mode = 2
 background_energy_multiplier = 1.7
 sky = SubResource("Sky_b2j5m")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pj5dt"]
+properties/0/path = NodePath(".:WhatPlayersTurn")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:Phase")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:FinalPlace")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="GameLogic" type="Node3D" groups=["GameLogic"]]
 script = ExtResource("1_e3neb")
@@ -50,6 +61,26 @@ current = false
 transform = Transform3D(0.56655, 0.535163, -0.626595, 0, 0.760406, 0.649448, 0.824027, -0.367945, 0.430808, -1.4, 0.2, 0.75)
 current = false
 
+[node name="PlayerLocations" type="Node3D" parent="."]
+
+[node name="Player1" type="Marker3D" parent="PlayerLocations"]
+transform = Transform3D(1, 0, 0, 0, 0.760406, 0.649448, 0, -0.649448, 0.760406, 0.3, 0.2, 2.2)
+
+[node name="Player2" type="Marker3D" parent="PlayerLocations"]
+transform = Transform3D(0.422618, -0.5886, 0.689162, 0, 0.760406, 0.649448, -0.906308, -0.274469, 0.321361, 2.4, 0.2, 0.8)
+
+[node name="Player3" type="Marker3D" parent="PlayerLocations"]
+transform = Transform3D(-0.642788, -0.497506, 0.582505, 0, 0.760406, 0.649448, -0.766044, 0.417457, -0.48878, 2.5, 0.2, -2.2)
+
+[node name="Player4" type="Marker3D" parent="PlayerLocations"]
+transform = Transform3D(-1, 5.67765e-08, -6.64768e-08, 0, 0.760406, 0.649448, 8.74228e-08, 0.649448, -0.760406, 0.75, 0.2, -3.6)
+
+[node name="Player5" type="Marker3D" parent="PlayerLocations"]
+transform = Transform3D(-0.642788, 0.497506, -0.582505, 0, 0.760406, 0.649448, 0.766044, 0.417457, -0.48878, -1, 0.2, -2.8)
+
+[node name="Player6" type="Marker3D" parent="PlayerLocations"]
+transform = Transform3D(0.566406, 0.535227, -0.62667, 0, 0.760406, 0.649448, 0.824126, -0.367851, 0.430699, -1.4, 0.2, 0.75)
+
 [node name="FlyingCamera" type="Camera3D" parent="."]
 transform = Transform3D(0.231976, 0.964406, 0.126918, -0.43305, -0.0144421, 0.901254, 0.871008, -0.264031, 0.414286, -0.046756, 1.57407, -0.833135)
 attributes = SubResource("CameraAttributesPractical_1wqt2")
@@ -75,10 +106,7 @@ environment = SubResource("Environment_xd82s")
 wait_time = 0.113
 one_shot = true
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_pj5dt")
 
 [connection signal="timeout" from="DealCardsTimer" to="." method="_on_timer_timeout"]

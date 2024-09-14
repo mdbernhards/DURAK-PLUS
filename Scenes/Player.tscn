@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfu0fgb47773"]
+[gd_scene load_steps=8 format=3 uid="uid://bfu0fgb47773"]
 
 [ext_resource type="Script" path="res://Scenes/Player1.gd" id="1_cql0q"]
 [ext_resource type="PackedScene" uid="uid://2nipdbi06qvk" path="res://Scenes/hand.tscn" id="2_unnxr"]
@@ -7,6 +7,20 @@
 [ext_resource type="PackedScene" uid="uid://cf5g1nwepleab" path="res://Scenes/Card.tscn" id="4_ngi8t"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1wqt2"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_awihn"]
+properties/0/path = NodePath(".:Phase")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:PlayerId")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:current")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:PearId")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="Player1" type="Camera3D" groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 0.75993, 0.650005, 0, -0.650005, 0.75993, 0.295, 0.2, 2.196)
@@ -203,6 +217,13 @@ visible = false
 CardStatus = 1
 
 [node name="Marker3D" type="Marker3D" parent="PlayerBoard/Defence/Card6"]
+
+[node name="GameEndTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_awihn")
 
 [connection signal="pressed" from="UILayer/Container/GetCardButton" to="Hand" method="_on_get_card_button_pressed"]
 [connection signal="pressed" from="UILayer/Container/AttackButton" to="Hand" method="_on_attack_button_pressed"]

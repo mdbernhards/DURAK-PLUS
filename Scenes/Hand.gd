@@ -33,7 +33,6 @@ func _process(delta):
 func checkIfWinner():
 	if (PlayerCamera.Phase == Game.Phase.Win or PlayerCamera.Phase == Game.Phase.Lose) and (PlayerCamera.PlayerId == GameLogic.WhatPlayersTurn):
 		GameLogic.nextTurn(Game.Phase.Attack, true)
-	
 
 func spaceOutCards():
 	for card in get_children():
@@ -82,7 +81,9 @@ func fillHand():
 		pullCardFromDeck()
 
 func selectCard(card):
-	if (SelectedCards.size() == 0 or DefendingCards.size() > 0) and PlayerCamera.Phase != Game.Phase.Waiting:
+	var maxAttack = GameLogic.getCurrentPlayerMaxAttack()
+	
+	if (SelectedCards.size() == 0 or DefendingCards.size() > 0) and (PlayerCamera.Phase != Game.Phase.Win or PlayerCamera.Phase != Game.Phase.Lose) and maxAttack > SelectedCards.size():
 		SelectedCards.append(card)
 		return true
 	elif PlayerCamera.Phase == Game.Phase.Attack:
@@ -122,9 +123,10 @@ func removeInvisibleCards():
 		if card.visible == false:
 			card.queue_free()
 
-func cleanBoard():
-	for card in SelectedCards:
-		card.free()
+func cleanBoard(alsoSelectedCards = true):
+	if alsoSelectedCards:
+		for card in SelectedCards:
+			card.free()
 		
 	for card in PlayerBoard.AttackCardsOnBoard:
 		card.visible = false
@@ -141,7 +143,6 @@ func _on_get_card_button_pressed():
 	pullCardFromDeck()
 
 func _on_attack_button_pressed():
-	GameLogic.checkPlayerWinConditions()
 	GameLogic.attack(SelectedCards, PlayerId, -1)
 	
 	cleanBoard()
@@ -156,13 +157,12 @@ func _on_take_cards_button_pressed():
 	for card in PlayerBoard.DefenceCardsOnBoard:
 		addCard(card.CardValue, card.CardSuit)
 	
-	cleanBoard()
+	cleanBoard(false)
 	GameLogic.nextTurn(Game.Phase.Attack, true)
 	spaceOutCards()
 
 func _on_end_defending_button_pressed(): # Defend
-	cleanBoard()
-	GameLogic.checkPlayerWinConditions()
+	cleanBoard(false)
 	GameLogic.nextTurn(Game.Phase.Attack, false)
 	
 func _on_bonus_attack_button_pressed():
@@ -177,7 +177,6 @@ func _on_pass_cards_button_pressed():
 	spaceOutCards()
 	cleanBoard()
 	
-	GameLogic.checkPlayerWinConditions()
 	GameLogic.nextTurn(Game.Phase.Defence, true)
 
 func _on_sort_value_button_pressed():
